@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --font-cormorant: "Cormorant Garamond";
+  --font-jost: "Jost";
+}
+
+@theme inline {
+  --color-black: #0a0a0a;
+  --color-white: #ffffff;
+  --color-cream: #f7f4f0;
+  --color-sand: #e8e0d5;
+  --color-gold: #c9a96e;
+  --color-gold-light: #e0c896;
+  --color-charcoal: #2c2c2c;
+  --color-muted: #8a8a8a;
+  --color-border: #e2ddd8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #ffffff;
+  color: #0a0a0a;
+  font-family: "Jost", "Helvetica Neue", sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+::selection {
+  background-color: #c9a96e;
+  color: #ffffff;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #f7f4f0; }
+::-webkit-scrollbar-thumb { background: #c9a96e; border-radius: 2px; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #f0ece6 25%, #e8e0d5 50%, #f0ece6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite linear;
+}
+
+.animate-fadeUp {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.text-label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
