@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -30,80 +35,96 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen pt-20 flex">
-      {/* Left panel */}
+      {/* Brand panel */}
       <div className="hidden lg:flex w-1/2 bg-[#0A0A0A] items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#1A1410] to-[#0A0A0A]" />
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#C9A96E]/10 blur-[80px]" />
-        <div className="relative z-10 text-center px-16">
-          <Link href="/" className="font-serif text-4xl text-white tracking-[0.15em] uppercase mb-8 block">
+        <div className="relative z-10 text-center px-16 space-y-6">
+          <Link href="/" className="font-serif text-4xl text-white tracking-[0.15em] uppercase block">
             Oghie
           </Link>
-          <p className="font-serif text-2xl text-[#8A8A8A] font-light italic">
+          <div className="w-12 h-px bg-[#C9A96E] mx-auto" />
+          <p className="font-serif text-xl text-[#8A8A8A] font-light italic">
             "Luxury is in each detail"
           </p>
-          <div className="mt-8 w-12 h-px bg-[#C9A96E] mx-auto" />
+          <div className="mt-12 space-y-3 text-left">
+            {["Curated premium collection", "Secure & fast checkout", "Free returns within 30 days"].map((t) => (
+              <div key={t} className="flex items-center gap-3 text-[#5A5A5A] text-sm font-light">
+                <div className="w-1.5 h-1.5 bg-[#C9A96E] rounded-full shrink-0" />
+                {t}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Right panel */}
+      {/* Form panel */}
       <div className="flex-1 flex items-center justify-center px-6 py-12 bg-[#F7F4F0]">
         <div className="w-full max-w-md">
-          <p className="text-label text-[#C9A96E] mb-4">Welcome Back</p>
-          <h1 className="font-serif text-4xl font-light mb-2" style={{ letterSpacing: "-0.02em" }}>
-            Sign In
-          </h1>
-          <p className="text-[#8A8A8A] font-light text-sm mb-10">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-[#C9A96E] hover:underline">
-              Create one
-            </Link>
-          </p>
+          <Card className="border-none shadow-none bg-transparent">
+            <CardHeader className="px-0">
+              <p className="text-label text-[#C9A96E] mb-2">Welcome Back</p>
+              <CardTitle className="text-4xl">Sign In</CardTitle>
+              <CardDescription className="text-base font-light mt-2">
+                Don&apos;t have an account?{" "}
+                <Link href="/register" className="text-[#C9A96E] hover:underline underline-offset-2">
+                  Create one
+                </Link>
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="px-0">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="space-y-1.5">
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    placeholder="Enter your username"
+                    className="rounded-none h-12"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPass ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      placeholder="Enter your password"
+                      className="rounded-none h-12 pr-12"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPass(!showPass)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8A8A8A] hover:text-[#0A0A0A] transition-colors"
+                    >
+                      {showPass ? <EyeOff size={16} strokeWidth={1.5} /> : <Eye size={16} strokeWidth={1.5} />}
+                    </button>
+                  </div>
+                </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="text-label block mb-2">Username</label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                className="w-full bg-white border border-[#E2DDD8] px-4 py-3.5 text-sm font-light focus:outline-none focus:border-[#C9A96E] transition-colors"
-                placeholder="Enter your username"
-              />
-            </div>
-            <div className="relative">
-              <label className="text-label block mb-2">Password</label>
-              <input
-                type={showPass ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full bg-white border border-[#E2DDD8] px-4 py-3.5 pr-12 text-sm font-light focus:outline-none focus:border-[#C9A96E] transition-colors"
-                placeholder="Enter your password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPass(!showPass)}
-                className="absolute right-4 bottom-4 text-[#8A8A8A] hover:text-[#0A0A0A] transition-colors"
-              >
-                {showPass ? <EyeOff size={16} strokeWidth={1.5} /> : <Eye size={16} strokeWidth={1.5} />}
-              </button>
-            </div>
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={loading}
+                  className="w-full rounded-none mt-2 tracking-[0.15em]"
+                >
+                  {loading ? "Signing in…" : "Sign In"}
+                </Button>
+              </form>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-[#0A0A0A] text-white text-label py-4 hover:bg-[#C9A96E] transition-colors duration-300 disabled:opacity-50 mt-2"
-            >
-              {loading ? "Signing in…" : "Sign In"}
-            </button>
-          </form>
+              <Separator className="my-8" />
 
-          <div className="mt-8 pt-8 border-t border-[#E2DDD8]">
-            <Link href="/" className="text-label text-[#8A8A8A] hover:text-[#0A0A0A] transition-colors">
-              ← Continue as Guest
-            </Link>
-          </div>
+              <Button asChild variant="ghost" size="sm" className="text-[#8A8A8A] pl-0">
+                <Link href="/">← Continue as Guest</Link>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

@@ -4,9 +4,16 @@ import { productsApi } from "@/lib/api";
 import { Product, Category } from "@/types";
 import ProductCard from "@/components/ProductCard";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
-import { Suspense } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 function ShopContent() {
   const searchParams = useSearchParams();
@@ -23,6 +30,10 @@ function ShopContent() {
     const p = new URLSearchParams(searchParams.toString());
     if (value) p.set(key, value); else p.delete(key);
     router.push(`/shop?${p.toString()}`);
+  };
+
+  const clearAll = () => {
+    router.push("/shop");
   };
 
   const { data: catData } = useQuery({
@@ -46,144 +57,164 @@ function ShopContent() {
 
   const products: Product[] = data?.data?.results ?? data?.data ?? [];
 
-  const sortOptions = [
-    { value: "-created_at", label: "Newest" },
-    { value: "price", label: "Price: Low to High" },
-    { value: "-price", label: "Price: High to Low" },
-    { value: "name", label: "Name A–Z" },
-  ];
+  const activeFilters = [
+    category && { label: categories.find(c => c.slug === category)?.name ?? category, key: "category" },
+    minPrice && { label: `Min $${minPrice}`, key: "min_price" },
+    maxPrice && { label: `Max $${maxPrice}`, key: "max_price" },
+    inStock && { label: "In Stock", key: "in_stock" },
+  ].filter(Boolean) as { label: string; key: string }[];
 
   return (
     <div className="min-h-screen pt-24">
-      {/* Page header */}
+      {/* Header */}
       <div className="border-b border-[#E2DDD8] bg-[#F7F4F0]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-10">
           <p className="text-label text-[#C9A96E] mb-2">All Products</p>
           <h1 className="font-serif text-4xl font-light" style={{ letterSpacing: "-0.02em" }}>
-            {category
-              ? categories.find((c) => c.slug === category)?.name ?? "Shop"
-              : "Shop"}
+            {category ? categories.find((c) => c.slug === category)?.name ?? "Shop" : "Shop"}
           </h1>
         </div>
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-8">
         {/* Toolbar */}
-        <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
-          <div className="flex items-center gap-3 flex-wrap">
-            {/* Category pills */}
-            <button
-              onClick={() => setParam("category", "")}
-              className={`text-label px-4 py-2 border transition-colors ${
-                !category
-                  ? "bg-[#0A0A0A] text-white border-[#0A0A0A]"
-                  : "border-[#E2DDD8] hover:border-[#0A0A0A]"
-              }`}
-            >
-              All
-            </button>
-            {categories.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => setParam("category", c.slug)}
-                className={`text-label px-4 py-2 border transition-colors ${
-                  category === c.slug
-                    ? "bg-[#0A0A0A] text-white border-[#0A0A0A]"
-                    : "border-[#E2DDD8] hover:border-[#0A0A0A]"
-                }`}
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          {/* Category pills */}
+          <ScrollArea className="max-w-full">
+            <div className="flex items-center gap-2 pb-1">
+              <Button
+                variant={!category ? "default" : "outline"}
+                size="sm"
+                className="rounded-none shrink-0"
+                onClick={() => setParam("category", "")}
               >
-                {c.name}
-              </button>
-            ))}
-          </div>
+                All
+              </Button>
+              {categories.map((c) => (
+                <Button
+                  key={c.id}
+                  variant={category === c.slug ? "default" : "outline"}
+                  size="sm"
+                  className="rounded-none shrink-0"
+                  onClick={() => setParam("category", c.slug)}
+                >
+                  {c.name}
+                </Button>
+              ))}
+            </div>
+          </ScrollArea>
 
-          <div className="flex items-center gap-4">
-            <button
+          <div className="flex items-center gap-3 shrink-0">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-2"
               onClick={() => setFiltersOpen(!filtersOpen)}
-              className="flex items-center gap-2 text-label hover:text-[#C9A96E] transition-colors"
             >
               <SlidersHorizontal size={14} strokeWidth={1.5} />
               Filters
-            </button>
-            <select
-              value={ordering}
-              onChange={(e) => setParam("ordering", e.target.value)}
-              className="text-label border border-[#E2DDD8] px-3 py-2 bg-white focus:outline-none focus:border-[#C9A96E] cursor-pointer"
-            >
-              {sortOptions.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
+              {activeFilters.length > 0 && (
+                <Badge variant="gold" className="ml-1 text-[9px] h-4 px-1.5">{activeFilters.length}</Badge>
+              )}
+            </Button>
+            <Select value={ordering} onValueChange={(v) => setParam("ordering", v)}>
+              <SelectTrigger className="w-44 rounded-none">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="-created_at">Newest</SelectItem>
+                <SelectItem value="price">Price: Low to High</SelectItem>
+                <SelectItem value="-price">Price: High to Low</SelectItem>
+                <SelectItem value="name">Name A–Z</SelectItem>
+                <SelectItem value="-average_rating">Top Rated</SelectItem>
+              </SelectContent>
+            </Select>
             {products.length > 0 && (
-              <span className="text-[#8A8A8A] text-sm font-light">{products.length} items</span>
+              <span className="text-[#8A8A8A] text-sm font-light hidden md:block">
+                {products.length} item{products.length !== 1 ? "s" : ""}
+              </span>
             )}
           </div>
         </div>
 
-        {/* Filters panel */}
-        {filtersOpen && (
-          <div className="bg-[#F7F4F0] border border-[#E2DDD8] p-6 mb-8 flex flex-wrap gap-8">
-            <div>
-              <p className="text-label mb-3">Price Range</p>
-              <div className="flex items-center gap-3">
-                <input
-                  type="number"
-                  placeholder="Min"
-                  value={minPrice}
-                  onChange={(e) => setParam("min_price", e.target.value)}
-                  className="w-24 border border-[#E2DDD8] px-3 py-2 text-sm focus:outline-none focus:border-[#C9A96E]"
-                />
-                <span className="text-[#8A8A8A]">—</span>
-                <input
-                  type="number"
-                  placeholder="Max"
-                  value={maxPrice}
-                  onChange={(e) => setParam("max_price", e.target.value)}
-                  className="w-24 border border-[#E2DDD8] px-3 py-2 text-sm focus:outline-none focus:border-[#C9A96E]"
-                />
-              </div>
-            </div>
-            <div>
-              <p className="text-label mb-3">Availability</p>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={inStock === "true"}
-                  onChange={(e) => setParam("in_stock", e.target.checked ? "true" : "")}
-                  className="accent-[#C9A96E]"
-                />
-                <span className="text-sm font-light">In Stock Only</span>
-              </label>
-            </div>
-            <button
-              onClick={() => {
-                setParam("min_price", "");
-                setParam("max_price", "");
-                setParam("in_stock", "");
-              }}
-              className="flex items-center gap-1 text-label text-[#8A8A8A] hover:text-[#0A0A0A] transition-colors self-end"
-            >
-              <X size={12} /> Clear Filters
-            </button>
+        {/* Active filters */}
+        {activeFilters.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 mb-5">
+            <span className="text-label text-[#8A8A8A]">Active:</span>
+            {activeFilters.map((f) => (
+              <Badge key={f.key} variant="secondary" className="gap-1 pl-2.5 pr-1.5 py-1 cursor-pointer"
+                onClick={() => setParam(f.key, "")}>
+                {f.label}
+                <X size={10} className="ml-0.5" />
+              </Badge>
+            ))}
+            <Button variant="ghost" size="sm" className="text-xs h-6 text-[#8A8A8A]" onClick={clearAll}>
+              Clear all
+            </Button>
           </div>
         )}
 
-        {/* Products grid */}
+        {/* Filter panel */}
+        {filtersOpen && (
+          <div className="bg-[#F7F4F0] border border-[#E2DDD8] p-6 mb-6">
+            <div className="flex flex-wrap gap-8 items-end">
+              <div className="space-y-2">
+                <Label>Min Price</Label>
+                <Input
+                  type="number"
+                  placeholder="0"
+                  value={minPrice}
+                  onChange={(e) => setParam("min_price", e.target.value)}
+                  className="w-28 rounded-none"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Max Price</Label>
+                <Input
+                  type="number"
+                  placeholder="9999"
+                  value={maxPrice}
+                  onChange={(e) => setParam("max_price", e.target.value)}
+                  className="w-28 rounded-none"
+                />
+              </div>
+              <Separator orientation="vertical" className="h-10 hidden md:block" />
+              <div className="space-y-2">
+                <Label>Availability</Label>
+                <label className="flex items-center gap-2 cursor-pointer h-10">
+                  <input
+                    type="checkbox"
+                    checked={inStock === "true"}
+                    onChange={(e) => setParam("in_stock", e.target.checked ? "true" : "")}
+                    className="accent-[#C9A96E] w-4 h-4"
+                  />
+                  <span className="text-sm font-light">In Stock Only</span>
+                </label>
+              </div>
+              <Button variant="ghost" size="sm" onClick={clearAll} className="gap-1 text-[#8A8A8A] self-end">
+                <X size={12} /> Clear
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Grid */}
         {isLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
             {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i}>
-                <div className="aspect-[3/4] animate-shimmer mb-4" />
-                <div className="h-3 animate-shimmer mb-2 w-2/3" />
-                <div className="h-4 animate-shimmer mb-2" />
-                <div className="h-3 animate-shimmer w-1/3" />
+              <div key={i} className="space-y-3">
+                <Skeleton className="aspect-[3/4]" />
+                <Skeleton className="h-3 w-2/3" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-3 w-1/3" />
               </div>
             ))}
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-24">
             <p className="font-serif text-3xl font-light text-[#C0B8B0] mb-3">No products found</p>
-            <p className="text-[#8A8A8A] font-light">Try adjusting your filters</p>
+            <p className="text-[#8A8A8A] font-light mb-6">Try adjusting your filters</p>
+            <Button variant="outline" className="rounded-none" onClick={clearAll}>Clear Filters</Button>
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
@@ -198,9 +229,5 @@ function ShopContent() {
 }
 
 export default function ShopPage() {
-  return (
-    <Suspense>
-      <ShopContent />
-    </Suspense>
-  );
+  return <Suspense><ShopContent /></Suspense>;
 }

@@ -9,6 +9,10 @@ import { ShoppingBag, Star } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { useAuthStore } from "@/store/auth";
 import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function ProductCardContent({ product }: { product: Product }) {
   const { addItem } = useCartStore();
@@ -27,71 +31,76 @@ function ProductCardContent({ product }: { product: Product }) {
   const primaryImage = product.images?.find((i) => i.is_primary) ?? product.images?.[0];
 
   return (
-    <div className="bg-[#F7F4F0] p-4 md:p-8 rounded-2xl">
+    <div className="bg-white border border-[#E2DDD8] p-5 md:p-8">
       {/* Main image */}
       {primaryImage && (
-        <div className="relative w-full h-60 md:h-80 rounded-xl overflow-hidden mb-6">
+        <div className="relative w-full h-56 md:h-72 overflow-hidden bg-[#F0ECE6] mb-5">
           <Image
             src={primaryImage.image_url}
             alt={primaryImage.alt_text || product.name}
             fill
             className="object-cover"
           />
+          {!product.stock_quantity && (
+            <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
+              <Badge variant="default">Sold Out</Badge>
+            </div>
+          )}
         </div>
       )}
 
       {/* Details */}
-      <div className="space-y-4">
-        <div>
-          <p className="text-[10px] tracking-widest uppercase text-[#C9A96E] font-medium mb-1">
-            {product.category_detail?.name}
+      <div className="space-y-3">
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <Badge variant="secondary" className="mb-2">{product.category_detail?.name}</Badge>
+            <h3 className="font-serif text-xl font-light" style={{ letterSpacing: "-0.01em" }}>
+              {product.name}
+            </h3>
+          </div>
+          <p className="font-serif text-xl font-light shrink-0">
+            {product.currency_detail?.symbol}{parseFloat(product.price).toLocaleString()}
           </p>
-          <h3 className="font-serif text-2xl font-light" style={{ letterSpacing: "-0.01em" }}>
-            {product.name}
-          </h3>
         </div>
 
-        <p className="text-[#5A5A5A] font-light text-sm leading-relaxed line-clamp-3">
+        {product.average_rating > 0 && (
+          <div className="flex items-center gap-1.5">
+            {[1,2,3,4,5].map((s) => (
+              <Star key={s} size={11} strokeWidth={1.5}
+                fill={s <= Math.round(product.average_rating) ? "#C9A96E" : "none"}
+                className={s <= Math.round(product.average_rating) ? "text-[#C9A96E]" : "text-[#E2DDD8]"} />
+            ))}
+            <span className="text-xs text-[#8A8A8A] ml-1">
+              {product.average_rating.toFixed(1)} · {product.review_count} reviews
+            </span>
+          </div>
+        )}
+
+        <p className="text-[#5A5A5A] font-light text-sm leading-relaxed line-clamp-2">
           {product.description || "A premium piece from our curated collection."}
         </p>
 
-        <div className="flex items-center justify-between">
-          <p className="font-serif text-2xl font-light">
-            {product.currency_detail?.symbol}
-            {parseFloat(product.price).toLocaleString()}
-          </p>
-          {product.average_rating > 0 && (
-            <div className="flex items-center gap-1.5">
-              <Star size={13} strokeWidth={1.5} fill="#C9A96E" className="text-[#C9A96E]" />
-              <span className="text-sm text-[#8A8A8A]">
-                {product.average_rating.toFixed(1)} ({product.review_count})
-              </span>
-            </div>
-          )}
-        </div>
+        <Separator />
 
-        <div className="flex gap-3 pt-2">
-          <button
+        <div className="flex gap-2 pt-1">
+          <Button
             onClick={handleAdd}
             disabled={!product.stock_quantity}
-            className="flex-1 flex items-center justify-center gap-2 bg-[#0A0A0A] text-white text-[0.6875rem] tracking-[0.2em] uppercase font-medium py-3.5 hover:bg-[#C9A96E] transition-colors duration-300 disabled:opacity-40 rounded-none"
+            className="flex-1 rounded-none text-[0.6875rem] tracking-[0.15em] gap-2"
           >
-            <ShoppingBag size={14} strokeWidth={1.5} />
+            <ShoppingBag size={13} strokeWidth={1.5} />
             {product.stock_quantity ? "Add to Bag" : "Sold Out"}
-          </button>
-          <Link
-            href={`/shop/${product.slug}`}
-            className="px-5 border border-[#0A0A0A] text-[0.6875rem] tracking-[0.2em] uppercase font-medium flex items-center hover:border-[#C9A96E] hover:text-[#C9A96E] transition-colors"
-          >
-            View
-          </Link>
+          </Button>
+          <Button asChild variant="outline" className="rounded-none px-4">
+            <Link href={`/shop/${product.slug}`}>View →</Link>
+          </Button>
         </div>
 
-        {/* Extra images */}
+        {/* Thumbnail strip */}
         {product.images?.length > 1 && (
-          <div className="flex gap-2 pt-2">
-            {product.images.slice(0, 4).map((img, i) => (
-              <div key={i} className="relative w-16 h-16 rounded-lg overflow-hidden bg-[#E8E0D5]">
+          <div className="flex gap-2 pt-1">
+            {product.images.slice(0, 5).map((img, i) => (
+              <div key={i} className="relative w-12 h-12 overflow-hidden bg-[#F0ECE6] border border-[#E2DDD8]">
                 <Image src={img.image_url} alt={img.alt_text || ""} fill className="object-cover" />
               </div>
             ))}
@@ -112,17 +121,17 @@ export default function ProductCarousel() {
 
   if (isLoading) {
     return (
-      <div className="py-20 lg:py-28">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-8">
-          <div className="h-5 w-32 animate-shimmer mb-3" />
-          <div className="h-10 w-64 animate-shimmer" />
+      <section className="py-20 lg:py-28">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-8 space-y-3">
+          <Skeleton className="h-4 w-28" />
+          <Skeleton className="h-9 w-56" />
         </div>
         <div className="flex gap-4 pl-4 overflow-hidden">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="w-56 md:w-96 h-80 md:h-[40rem] animate-shimmer rounded-3xl shrink-0" />
+            <Skeleton key={i} className="w-56 md:w-96 h-80 md:h-[40rem] rounded-3xl shrink-0" />
           ))}
         </div>
-      </div>
+      </section>
     );
   }
 
@@ -148,13 +157,8 @@ export default function ProductCarousel() {
   return (
     <section className="py-20 lg:py-28 bg-white">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <p className="text-[0.6875rem] tracking-[0.2em] uppercase font-medium text-[#C9A96E] mb-3">
-          Swipe to Explore
-        </p>
-        <h2
-          className="font-serif font-light"
-          style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.02em" }}
-        >
+        <p className="text-label text-[#C9A96E] mb-3">Swipe to Explore</p>
+        <h2 className="font-serif font-light" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.02em" }}>
           The Collection
         </h2>
       </div>

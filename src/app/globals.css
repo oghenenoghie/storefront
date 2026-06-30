@@ -1,11 +1,50 @@
 @import "tailwindcss";
 
+/* ── Shadcn/ui CSS variables ── */
 :root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 4%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 4%;
+  --primary: 36 50% 61%;        /* gold #C9A96E */
+  --primary-foreground: 0 0% 4%;
+  --secondary: 30 25% 93%;      /* cream #F7F4F0 */
+  --secondary-foreground: 0 0% 17%;
+  --muted: 30 15% 88%;
+  --muted-foreground: 0 0% 54%;
+  --accent: 36 50% 61%;
+  --accent-foreground: 0 0% 4%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 30 20% 87%;         /* #E2DDD8 */
+  --input: 30 20% 87%;
+  --ring: 36 50% 61%;
+  --radius: 0.5rem;
   --font-cormorant: "Cormorant Garamond";
   --font-jost: "Jost";
 }
 
 @theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
   --color-black: #0a0a0a;
   --color-white: #ffffff;
   --color-cream: #f7f4f0;
@@ -13,14 +52,18 @@
   --color-gold: #c9a96e;
   --color-gold-light: #e0c896;
   --color-charcoal: #2c2c2c;
-  --color-muted: #8a8a8a;
-  --color-border: #e2ddd8;
+  --color-muted-custom: #8a8a8a;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border-color: hsl(var(--border));
 }
 
 html {
@@ -30,8 +73,8 @@ html {
 }
 
 body {
-  background-color: #ffffff;
-  color: #0a0a0a;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
   font-family: "Jost", "Helvetica Neue", sans-serif;
   font-weight: 300;
   line-height: 1.6;
@@ -56,6 +99,16 @@ body {
   100% { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
 .animate-shimmer {
   background: linear-gradient(90deg, #f0ece6 25%, #e8e0d5 50%, #f0ece6 75%);
   background-size: 200% 100%;
@@ -64,6 +117,14 @@ body {
 
 .animate-fadeUp {
   animation: fadeUp 0.6s ease forwards;
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.2s ease-out;
 }
 
 .text-label {
