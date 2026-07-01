@@ -73,7 +73,7 @@ export default function ProductPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen pt-24">
+      <div className="min-h-screen">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12 grid grid-cols-1 lg:grid-cols-2 gap-16">
           <Skeleton className="aspect-square" />
           <div className="space-y-5">
@@ -90,7 +90,7 @@ export default function ProductPage() {
 
   if (!product) {
     return (
-      <div className="pt-40 text-center text-[#8A8A8A]">
+      <div className="text-center text-[#8C8C8C]">
         <p className="font-serif text-2xl font-light mb-4">Product not found</p>
         <Button asChild variant="outline"><Link href="/shop">Back to Shop</Link></Button>
       </div>
@@ -102,19 +102,19 @@ export default function ProductPage() {
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen pt-20">
+      <div className="min-h-screen">
         {/* Breadcrumb */}
-        <div className="border-b border-[#E2DDD8] bg-[#F7F4F0]">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-3 flex items-center gap-2 text-xs text-[#8A8A8A]">
-            <Link href="/" className="hover:text-[#C9A96E] transition-colors">Home</Link>
+        <div className="border-b border-[#E0E0E0] bg-[#F7F7F7]">
+          <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-3 flex items-center gap-2 text-xs text-[#8C8C8C]">
+            <Link href="/" className="hover:text-[#1A1A1A] transition-colors">Home</Link>
             <ChevronRight size={12} />
-            <Link href="/shop" className="hover:text-[#C9A96E] transition-colors">Shop</Link>
+            <Link href="/shop" className="hover:text-[#1A1A1A] transition-colors">Shop</Link>
             <ChevronRight size={12} />
-            <Link href={`/shop?category=${product.category_detail?.slug}`} className="hover:text-[#C9A96E] transition-colors">
+            <Link href={`/shop?category=${product.category_detail?.slug}`} className="hover:text-[#1A1A1A] transition-colors">
               {product.category_detail?.name}
             </Link>
             <ChevronRight size={12} />
-            <span className="text-[#0A0A0A]">{product.name}</span>
+            <span className="text-[#1A1A1A]">{product.name}</span>
           </div>
         </div>
 
@@ -130,7 +130,7 @@ export default function ProductPage() {
                       key={i}
                       onClick={() => setSelectedImage(i)}
                       className={`relative aspect-square overflow-hidden border-2 transition-colors ${
-                        selectedImage === i ? "border-[#C9A96E]" : "border-transparent hover:border-[#E2DDD8]"
+                        selectedImage === i ? "border-[#1A1A1A]" : "border-transparent hover:border-[#E0E0E0]"
                       }`}
                     >
                       <Image src={img.image_url} alt={img.alt_text} fill className="object-cover" />
@@ -138,7 +138,7 @@ export default function ProductPage() {
                   ))}
                 </div>
               )}
-              <div className="flex-1 relative aspect-square bg-[#F0ECE6] overflow-hidden">
+              <div className="flex-1 relative aspect-square bg-[#F7F7F7] overflow-hidden">
                 {displayImg && (
                   <Image
                     src={displayImg.image_url}
@@ -177,11 +177,11 @@ export default function ProductPage() {
                     <div className="flex">
                       {[1,2,3,4,5].map((s) => (
                         <Star key={s} size={13} strokeWidth={1.5}
-                          fill={s <= Math.round(product.average_rating) ? "#C9A96E" : "none"}
-                          className={s <= Math.round(product.average_rating) ? "text-[#C9A96E]" : "text-[#E2DDD8]"} />
+                          fill={s <= Math.round(product.average_rating) ? "#1A1A1A" : "none"}
+                          className={s <= Math.round(product.average_rating) ? "text-[#1A1A1A]" : "text-[#E0E0E0]"} />
                       ))}
                     </div>
-                    <span className="text-sm text-[#8A8A8A] font-light">
+                    <span className="text-sm text-[#8C8C8C] font-light">
                       {product.average_rating.toFixed(1)} · {product.review_count} reviews
                     </span>
                   </div>
@@ -193,7 +193,7 @@ export default function ProductPage() {
                 <p className="font-serif text-4xl font-light">
                   {product.currency_detail?.symbol}{parseFloat(product.price).toLocaleString()}
                 </p>
-                <span className="text-xs text-[#8A8A8A]">{product.currency_detail?.code}</span>
+                <span className="text-xs text-[#8C8C8C]">{product.currency_detail?.code}</span>
               </div>
 
               <Separator />
@@ -201,7 +201,7 @@ export default function ProductPage() {
               {/* Quantity */}
               <div className="space-y-2">
                 <p className="text-label">Quantity</p>
-                <div className="flex items-center border border-[#E2DDD8] w-fit">
+                <div className="flex items-center border border-[#E0E0E0] w-fit">
                   <Button
                     variant="ghost"
                     size="icon"
@@ -243,8 +243,8 @@ export default function ProductPage() {
                       onClick={handleWishlist}
                     >
                       <Heart size={16} strokeWidth={1.5}
-                        fill={wishlisted ? "#C9A96E" : "none"}
-                        className={wishlisted ? "text-[#C9A96E]" : ""} />
+                        fill={wishlisted ? "#1A1A1A" : "none"}
+                        className={wishlisted ? "text-[#1A1A1A]" : ""} />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>Save to Wishlist</TooltipContent>
@@ -280,10 +280,10 @@ export default function ProductPage() {
                         <AccordionTrigger>Product Details</AccordionTrigger>
                         <AccordionContent>
                           <ul className="space-y-2 text-sm">
-                            <li className="flex justify-between"><span className="text-[#8A8A8A]">SKU</span><span>{product.slug}</span></li>
-                            <li className="flex justify-between"><span className="text-[#8A8A8A]">Category</span><span>{product.category_detail?.name}</span></li>
-                            <li className="flex justify-between"><span className="text-[#8A8A8A]">Stock</span><span>{product.stock_quantity} units</span></li>
-                            <li className="flex justify-between"><span className="text-[#8A8A8A]">Currency</span><span>{product.currency_detail?.code}</span></li>
+                            <li className="flex justify-between"><span className="text-[#8C8C8C]">SKU</span><span>{product.slug}</span></li>
+                            <li className="flex justify-between"><span className="text-[#8C8C8C]">Category</span><span>{product.category_detail?.name}</span></li>
+                            <li className="flex justify-between"><span className="text-[#8C8C8C]">Stock</span><span>{product.stock_quantity} units</span></li>
+                            <li className="flex justify-between"><span className="text-[#8C8C8C]">Currency</span><span>{product.currency_detail?.code}</span></li>
                           </ul>
                         </AccordionContent>
                       </AccordionItem>
@@ -300,8 +300,8 @@ export default function ProductPage() {
                 <TabsContent value="reviews">
                   {reviews.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="font-serif text-lg font-light text-[#8A8A8A] mb-2">No reviews yet</p>
-                      <p className="text-sm text-[#8A8A8A]">Be the first to review this product</p>
+                      <p className="font-serif text-lg font-light text-[#8C8C8C] mb-2">No reviews yet</p>
+                      <p className="text-sm text-[#8C8C8C]">Be the first to review this product</p>
                     </div>
                   ) : (
                     <div className="space-y-5">
@@ -316,8 +316,8 @@ export default function ProductPage() {
                               <div className="flex">
                                 {[1,2,3,4,5].map((s) => (
                                   <Star key={s} size={11}
-                                    fill={s <= r.rating ? "#C9A96E" : "none"}
-                                    className={s <= r.rating ? "text-[#C9A96E]" : "text-[#E2DDD8]"} />
+                                    fill={s <= r.rating ? "#1A1A1A" : "none"}
+                                    className={s <= r.rating ? "text-[#1A1A1A]" : "text-[#E0E0E0]"} />
                                 ))}
                               </div>
                             </div>
@@ -332,9 +332,9 @@ export default function ProductPage() {
 
                 <TabsContent value="shipping">
                   <div className="space-y-4 text-sm text-[#5A5A5A] font-light">
-                    <p><strong className="text-[#0A0A0A] font-medium">Free Standard Shipping</strong> on orders over $200. Delivered in 5–7 business days.</p>
-                    <p><strong className="text-[#0A0A0A] font-medium">Express Shipping</strong> available at checkout. Delivered in 2–3 business days.</p>
-                    <p><strong className="text-[#0A0A0A] font-medium">Easy Returns</strong> within 30 days of delivery. Items must be unused and in original packaging.</p>
+                    <p><strong className="text-[#1A1A1A] font-medium">Free Standard Shipping</strong> on orders over $200. Delivered in 5–7 business days.</p>
+                    <p><strong className="text-[#1A1A1A] font-medium">Express Shipping</strong> available at checkout. Delivered in 2–3 business days.</p>
+                    <p><strong className="text-[#1A1A1A] font-medium">Easy Returns</strong> within 30 days of delivery. Items must be unused and in original packaging.</p>
                   </div>
                 </TabsContent>
               </Tabs>

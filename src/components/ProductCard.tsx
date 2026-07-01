@@ -67,15 +67,14 @@ export default function ProductCard({ product, featured = false }: Props) {
   };
 
   return (
-    <Link href={`/shop/${product.slug}`} className="group block">
-      {/* ── Image Area (3:4 ratio, bg cream) ── */}
+    <Link href={`/shop/${product.slug}`} className="group product-card">
+      {/* Image */}
       <div
         className={cn(
-          "relative overflow-hidden bg-[#F0ECE6]",
-          featured ? "aspect-[3/5]" : "aspect-[3/4]"
+          "product-card-image",
+          featured && "aspect-[3/5]"
         )}
       >
-        {/* Primary image */}
         {primaryImage && (
           <Image
             src={primaryImage.image_url}
@@ -103,8 +102,7 @@ export default function ProductCard({ product, featured = false }: Props) {
         {/* Sold-out frost overlay */}
         {isSoldOut && (
           <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
-            <span className="bg-[#0A0A0A] text-white text-[9px] font-medium tracking-[0.25em] uppercase px-4 py-2"
-              style={{ fontFamily: "var(--font-sans)" }}>
+            <span className="bg-[#1A1A1A] text-white text-[9px] font-medium tracking-[0.25em] uppercase px-4 py-2">
               Sold Out
             </span>
           </div>
@@ -113,8 +111,7 @@ export default function ProductCard({ product, featured = false }: Props) {
         {/* Category badge (top-left) */}
         {product.category_detail?.name && (
           <div className="absolute top-3 left-3">
-            <span className="bg-[#0A0A0A] text-[#C9A96E] text-[8px] font-medium tracking-[0.2em] uppercase px-2 py-1"
-              style={{ fontFamily: "var(--font-sans)" }}>
+            <span className="bg-white/95 backdrop-blur-sm text-[#1A1A1A] text-[8px] font-medium tracking-[0.2em] uppercase px-2 py-1">
               {product.category_detail.name}
             </span>
           </div>
@@ -123,8 +120,7 @@ export default function ProductCard({ product, featured = false }: Props) {
         {/* Sale badge (top-right, only if discounted and in stock) */}
         {discountPct && !isSoldOut && (
           <div className="absolute top-3 right-3">
-            <span className="bg-[#C9A96E] text-white text-[8px] font-medium tracking-[0.05em] px-2 py-1"
-              style={{ fontFamily: "var(--font-sans)" }}>
+            <span className="bg-[#1A1A1A] text-white text-[8px] font-medium tracking-[0.05em] px-2 py-1">
               −{discountPct}%
             </span>
           </div>
@@ -135,14 +131,9 @@ export default function ProductCard({ product, featured = false }: Props) {
           <button
             aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
             onClick={handleWishlist}
-            className="absolute top-3 right-3 w-8 h-8 bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-[#F7F4F0]"
+            className="absolute top-3 right-3 w-8 h-8 bg-white/95 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-[#1A1A1A] hover:text-white"
           >
-            <Heart
-              size={14}
-              strokeWidth={1.5}
-              fill={wishlisted ? "#C9A96E" : "none"}
-              className={wishlisted ? "text-[#C9A96E]" : "text-[#0A0A0A]"}
-            />
+            <Heart size={14} strokeWidth={1.5} fill={wishlisted ? "currentColor" : "none"} />
           </button>
         )}
 
@@ -152,8 +143,7 @@ export default function ProductCard({ product, featured = false }: Props) {
             <button
               onClick={handleAddToCart}
               disabled={adding}
-              className="w-full h-11 bg-[#0A0A0A]/93 text-white text-[10px] font-medium tracking-[0.3em] uppercase flex items-center justify-center gap-2 hover:bg-[#0A0A0A] transition-colors disabled:opacity-60"
-              style={{ fontFamily: "var(--font-sans)" }}
+              className="w-full h-11 bg-[#1A1A1A]/93 text-white text-[10px] font-medium tracking-[0.3em] uppercase flex items-center justify-center gap-2 hover:bg-[#1A1A1A] transition-colors disabled:opacity-60"
             >
               <ShoppingBag size={13} strokeWidth={1.5} />
               {adding ? "Adding…" : "Add to Bag"}
@@ -162,13 +152,12 @@ export default function ProductCard({ product, featured = false }: Props) {
         )}
       </div>
 
-      {/* ── Info Area ── */}
-      <div className="pt-3.5 pb-3.5 space-y-1.5">
-        {/* Product name */}
-        <h3
-          className="font-serif text-[1.125rem] font-light leading-snug group-hover:text-[#C9A96E] transition-colors"
-          style={{ letterSpacing: "-0.01em" }}
-        >
+      {/* Info */}
+      <div className="product-card-info">
+        <p className="font-brand-label">
+          {product.category_detail?.name}
+        </p>
+        <h3 className="product-card-name leading-snug">
           {product.name}
         </h3>
 
@@ -181,12 +170,12 @@ export default function ProductCard({ product, featured = false }: Props) {
                   key={s}
                   size={10}
                   strokeWidth={1.5}
-                  fill={s <= Math.round(product.average_rating) ? "#C9A96E" : "none"}
-                  className={s <= Math.round(product.average_rating) ? "text-[#C9A96E]" : "text-[#E2DDD8]"}
+                  fill={s <= Math.round(product.average_rating) ? "#1A1A1A" : "none"}
+                  className={s <= Math.round(product.average_rating) ? "text-[#1A1A1A]" : "text-[#E0E0E0]"}
                 />
               ))}
             </div>
-            <span className="text-[10px] text-[#8A8A8A]" style={{ fontFamily: "var(--font-sans)" }}>
+            <span className="text-[10px] text-[#8C8C8C]">
               {product.average_rating.toFixed(1)}
               {product.review_count > 0 && ` · ${product.review_count}`}
             </span>
@@ -195,14 +184,11 @@ export default function ProductCard({ product, featured = false }: Props) {
 
         {/* Price row */}
         <div className="flex items-baseline gap-2 pt-0.5">
-          <span className="font-serif text-[1.25rem] font-medium text-[#0A0A0A]">
+          <span className="product-card-price font-medium">
             {product.currency_detail?.symbol ?? "$"}{parseFloat(product.price).toLocaleString()}
           </span>
           {comparePrice && parseFloat(comparePrice) > parseFloat(product.price) && (
-            <span
-              className="text-[0.8125rem] font-light text-[#8A8A8A] line-through"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
+            <span className="text-[0.8125rem] font-normal text-[#8C8C8C] line-through">
               {product.currency_detail?.symbol ?? "$"}{parseFloat(comparePrice).toLocaleString()}
             </span>
           )}

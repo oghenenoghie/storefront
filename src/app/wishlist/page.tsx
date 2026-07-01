@@ -26,9 +26,9 @@ export default function WishlistPage() {
   const wishlist: WishlistItem[] = data?.data?.results ?? data?.data ?? [];
 
   return (
-    <div className="min-h-screen pt-24 bg-[#F7F4F0]">
+    <div className="min-h-screen bg-[#F7F7F7]">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
-        <p className="text-label text-[#C9A96E] mb-3">Saved Items</p>
+        <p className="text-label text-[#8C8C8C] mb-3">Saved Items</p>
         <h1 className="font-serif text-4xl font-light mb-12" style={{ letterSpacing: "-0.02em" }}>
           Wishlist
         </h1>
@@ -45,9 +45,9 @@ export default function WishlistPage() {
           </div>
         ) : wishlist.length === 0 ? (
           <div className="text-center py-24">
-            <Heart size={40} strokeWidth={1} className="text-[#E2DDD8] mx-auto mb-4" />
-            <p className="font-serif text-2xl font-light text-[#8A8A8A] mb-3">Your wishlist is empty</p>
-            <Link href="/shop" className="text-label border-b border-[#0A0A0A] hover:text-[#C9A96E] hover:border-[#C9A96E] transition-colors">
+            <Heart size={40} strokeWidth={1} className="text-[#E0E0E0] mx-auto mb-4" />
+            <p className="font-serif text-2xl font-light text-[#8C8C8C] mb-3">Your wishlist is empty</p>
+            <Link href="/shop" className="text-label border-b border-[#1A1A1A] hover:opacity-60 transition-opacity">
               Explore Products →
             </Link>
           </div>

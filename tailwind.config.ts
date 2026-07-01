@@ -9,19 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        black: "#0A0A0A",
+        black: "#1A1A1A",
         white: "#FFFFFF",
-        cream: "#F7F4F0",
-        sand: "#E8E0D5",
-        gold: "#C9A96E",
-        "gold-light": "#E0C896",
+        surface: "#F7F7F7",
+        "surface-alt": "#F0F0F0",
+        border: "#E0E0E0",
         charcoal: "#2C2C2C",
-        muted: "#8A8A8A",
-        border: "#E2DDD8",
+        muted: "#8C8C8C",
       },
       fontFamily: {
         serif: ["var(--font-cormorant)", "Georgia", "serif"],
-        sans: ["var(--font-jost)", "Helvetica Neue", "sans-serif"],
+        sans: ["var(--font-inter)", "Helvetica Neue", "sans-serif"],
       },
       fontSize: {
         "2xs": ["0.625rem", { lineHeight: "1rem" }],
@@ -40,6 +38,15 @@ const config: Config = {
       },
       transitionTimingFunction: {
         luxury: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+      },
+      borderRadius: {
+        none: "0px",
+        DEFAULT: "0px",
+        sm: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
+        full: "9999px",
       },
       keyframes: {
         fadeUp: {

@@ -2,22 +2,22 @@ import Link from "next/link";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen">
       {/* Hero */}
-      <div className="bg-[#0A0A0A] py-28 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04]" style={{
-          backgroundImage: "linear-gradient(#C9A96E 1px, transparent 1px), linear-gradient(90deg, #C9A96E 1px, transparent 1px)",
+      <div className="bg-[#1A1A1A] py-28 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.05]" style={{
+          backgroundImage: "linear-gradient(#FFFFFF 1px, transparent 1px), linear-gradient(90deg, #FFFFFF 1px, transparent 1px)",
           backgroundSize: "60px 60px",
         }} />
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
-          <p className="text-label text-[#C9A96E] mb-4">Our Story</p>
+          <p className="font-brand-label mb-4">Our Story</p>
           <h1
             className="font-serif text-white font-light"
-            style={{ fontSize: "clamp(3rem, 6vw, 5rem)", letterSpacing: "-0.03em", lineHeight: 1.05 }}
+            style={{ fontSize: "clamp(3rem, 6vw, 5rem)", letterSpacing: "0.01em", lineHeight: 1.05 }}
           >
             Curated for the
             <br />
-            <em className="text-[#C9A96E]">Discerning</em> Individual
+            Discerning Individual
           </h1>
         </div>
       </div>
@@ -55,8 +55,8 @@ export default function AboutPage() {
               { n: "10,000+", label: "Satisfied Clients" },
               { n: "30+", label: "Countries Shipped To" },
             ].map((s) => (
-              <div key={s.n} className="flex items-center gap-6 border-b border-[#E2DDD8] pb-6">
-                <p className="font-serif text-4xl text-[#C9A96E] font-light w-28 shrink-0">{s.n}</p>
+              <div key={s.n} className="flex items-center gap-6 border-b border-[#E0E0E0] pb-6">
+                <p className="font-serif text-4xl text-[#1A1A1A] font-light w-28 shrink-0">{s.n}</p>
                 <p className="text-[#5A5A5A] font-light">{s.label}</p>
               </div>
             ))}
@@ -64,8 +64,8 @@ export default function AboutPage() {
         </div>
 
         {/* Values */}
-        <div className="mt-20 pt-20 border-t border-[#E2DDD8]">
-          <p className="text-label text-[#C9A96E] mb-3 text-center">What Drives Us</p>
+        <div className="mt-20 pt-20 border-t border-[#E0E0E0]">
+          <p className="text-label text-[#8C8C8C] mb-3 text-center">What Drives Us</p>
           <h2 className="font-serif text-3xl font-light text-center mb-12" style={{ letterSpacing: "-0.02em" }}>
             Our Values
           </h2>
@@ -84,8 +84,8 @@ export default function AboutPage() {
                 text: "We curate pieces that transcend trends — items you will cherish for years, not just a single season.",
               },
             ].map((v) => (
-              <div key={v.title} className="bg-[#F7F4F0] p-8">
-                <div className="w-8 h-px bg-[#C9A96E] mb-5" />
+              <div key={v.title} className="bg-[#F7F7F7] p-8">
+                <div className="w-8 h-px bg-[#1A1A1A] mb-5" />
                 <h3 className="font-serif text-xl font-light mb-3">{v.title}</h3>
                 <p className="text-[#5A5A5A] font-light text-sm leading-relaxed">{v.text}</p>
               </div>
@@ -96,7 +96,7 @@ export default function AboutPage() {
         <div className="text-center mt-16">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-3 bg-[#0A0A0A] text-white text-label px-10 py-4 hover:bg-[#C9A96E] transition-colors duration-300"
+            className="inline-flex items-center gap-3 bg-[#1A1A1A] text-white text-label px-10 py-4 hover:bg-[#333333] transition-colors duration-300"
           >
             Explore Our Collection →
           </Link>

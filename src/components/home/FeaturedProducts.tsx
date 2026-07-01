@@ -15,20 +15,15 @@ export default function FeaturedProducts() {
 
   return (
     <section className="py-20 lg:py-28">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-16">
         <div className="flex items-end justify-between mb-12">
           <div>
-            <p className="text-label text-[#C9A96E] mb-3">Hand Picked</p>
-            <h2
-              className="font-serif font-light"
-              style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.02em" }}
-            >
-              New Arrivals
-            </h2>
+            <p className="font-brand-label mb-3">Hand Picked</p>
+            <h2 className="section-heading">New Arrivals</h2>
           </div>
           <Link
             href="/shop"
-            className="text-label border-b border-[#0A0A0A] pb-0.5 hover:text-[#C9A96E] hover:border-[#C9A96E] transition-colors hidden md:block"
+            className="text-label border-b border-[#1A1A1A] pb-0.5 hover:text-[#8C8C8C] hover:border-[#8C8C8C] transition-colors hidden md:block"
           >
             View All →
           </Link>

@@ -34,23 +34,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen pt-20 flex">
+    <div className="min-h-screen flex">
       {/* Brand panel */}
-      <div className="hidden lg:flex w-1/2 bg-[#0A0A0A] items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1A1410] to-[#0A0A0A]" />
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#C9A96E]/10 blur-[80px]" />
+      <div className="hidden lg:flex w-1/2 bg-[#1A1A1A] items-center justify-center relative overflow-hidden">
         <div className="relative z-10 text-center px-16 space-y-6">
-          <Link href="/" className="font-serif text-4xl text-white tracking-[0.15em] uppercase block">
+          <Link href="/" className="font-serif text-4xl text-white tracking-[0.3em] uppercase block">
             Oghie
           </Link>
-          <div className="w-12 h-px bg-[#C9A96E] mx-auto" />
-          <p className="font-serif text-xl text-[#8A8A8A] font-light italic">
+          <div className="w-12 h-px bg-white mx-auto" />
+          <p className="font-serif text-xl text-[#8C8C8C] font-light italic">
             "Luxury is in each detail"
           </p>
           <div className="mt-12 space-y-3 text-left">
             {["Curated premium collection", "Secure & fast checkout", "Free returns within 30 days"].map((t) => (
-              <div key={t} className="flex items-center gap-3 text-[#5A5A5A] text-sm font-light">
-                <div className="w-1.5 h-1.5 bg-[#C9A96E] rounded-full shrink-0" />
+              <div key={t} className="flex items-center gap-3 text-[#8C8C8C] text-sm font-normal">
+                <div className="w-1.5 h-1.5 bg-white rounded-full shrink-0" />
                 {t}
               </div>
             ))}
@@ -59,15 +57,15 @@ export default function LoginPage() {
       </div>
 
       {/* Form panel */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-[#F7F4F0]">
+      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-[#F7F7F7]">
         <div className="w-full max-w-md">
           <Card className="border-none shadow-none bg-transparent">
             <CardHeader className="px-0">
-              <p className="text-label text-[#C9A96E] mb-2">Welcome Back</p>
+              <p className="text-label text-[#8C8C8C] mb-2">Welcome Back</p>
               <CardTitle className="text-4xl">Sign In</CardTitle>
               <CardDescription className="text-base font-light mt-2">
                 Don&apos;t have an account?{" "}
-                <Link href="/register" className="text-[#C9A96E] hover:underline underline-offset-2">
+                <Link href="/register" className="text-[#1A1A1A] hover:underline underline-offset-2">
                   Create one
                 </Link>
               </CardDescription>
@@ -101,7 +99,7 @@ export default function LoginPage() {
                     <button
                       type="button"
                       onClick={() => setShowPass(!showPass)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8A8A8A] hover:text-[#0A0A0A] transition-colors"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
                     >
                       {showPass ? <EyeOff size={16} strokeWidth={1.5} /> : <Eye size={16} strokeWidth={1.5} />}
                     </button>
@@ -120,7 +118,7 @@ export default function LoginPage() {
 
               <Separator className="my-8" />
 
-              <Button asChild variant="ghost" size="sm" className="text-[#8A8A8A] pl-0">
+              <Button asChild variant="ghost" size="sm" className="text-[#8C8C8C] pl-0">
                 <Link href="/">← Continue as Guest</Link>
               </Button>
             </CardContent>

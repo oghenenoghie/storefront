@@ -65,11 +65,11 @@ function ShopContent() {
   ].filter(Boolean) as { label: string; key: string }[];
 
   return (
-    <div className="min-h-screen pt-24">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="border-b border-[#E2DDD8] bg-[#F7F4F0]">
+      <div className="border-b border-[#E0E0E0] bg-[#F7F7F7]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-10">
-          <p className="text-label text-[#C9A96E] mb-2">All Products</p>
+          <p className="text-label text-[#8C8C8C] mb-2">All Products</p>
           <h1 className="font-serif text-4xl font-light" style={{ letterSpacing: "-0.02em" }}>
             {category ? categories.find((c) => c.slug === category)?.name ?? "Shop" : "Shop"}
           </h1>
@@ -114,7 +114,7 @@ function ShopContent() {
               <SlidersHorizontal size={14} strokeWidth={1.5} />
               Filters
               {activeFilters.length > 0 && (
-                <Badge variant="gold" className="ml-1 text-[9px] h-4 px-1.5">{activeFilters.length}</Badge>
+                <Badge variant="dark" className="ml-1 text-[9px] h-4 px-1.5">{activeFilters.length}</Badge>
               )}
             </Button>
             <Select value={ordering} onValueChange={(v) => setParam("ordering", v)}>
@@ -130,7 +130,7 @@ function ShopContent() {
               </SelectContent>
             </Select>
             {products.length > 0 && (
-              <span className="text-[#8A8A8A] text-sm font-light hidden md:block">
+              <span className="text-[#8C8C8C] text-sm font-light hidden md:block">
                 {products.length} item{products.length !== 1 ? "s" : ""}
               </span>
             )}
@@ -140,7 +140,7 @@ function ShopContent() {
         {/* Active filters */}
         {activeFilters.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 mb-5">
-            <span className="text-label text-[#8A8A8A]">Active:</span>
+            <span className="text-label text-[#8C8C8C]">Active:</span>
             {activeFilters.map((f) => (
               <Badge key={f.key} variant="secondary" className="gap-1 pl-2.5 pr-1.5 py-1 cursor-pointer"
                 onClick={() => setParam(f.key, "")}>
@@ -148,7 +148,7 @@ function ShopContent() {
                 <X size={10} className="ml-0.5" />
               </Badge>
             ))}
-            <Button variant="ghost" size="sm" className="text-xs h-6 text-[#8A8A8A]" onClick={clearAll}>
+            <Button variant="ghost" size="sm" className="text-xs h-6 text-[#8C8C8C]" onClick={clearAll}>
               Clear all
             </Button>
           </div>
@@ -156,7 +156,7 @@ function ShopContent() {
 
         {/* Filter panel */}
         {filtersOpen && (
-          <div className="bg-[#F7F4F0] border border-[#E2DDD8] p-6 mb-6">
+          <div className="bg-[#F7F7F7] border border-[#E0E0E0] p-6 mb-6">
             <div className="flex flex-wrap gap-8 items-end">
               <div className="space-y-2">
                 <Label>Min Price</Label>
@@ -186,12 +186,12 @@ function ShopContent() {
                     type="checkbox"
                     checked={inStock === "true"}
                     onChange={(e) => setParam("in_stock", e.target.checked ? "true" : "")}
-                    className="accent-[#C9A96E] w-4 h-4"
+                    className="accent-[#1A1A1A] w-4 h-4"
                   />
                   <span className="text-sm font-light">In Stock Only</span>
                 </label>
               </div>
-              <Button variant="ghost" size="sm" onClick={clearAll} className="gap-1 text-[#8A8A8A] self-end">
+              <Button variant="ghost" size="sm" onClick={clearAll} className="gap-1 text-[#8C8C8C] self-end">
                 <X size={12} /> Clear
               </Button>
             </div>
@@ -212,8 +212,8 @@ function ShopContent() {
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-24">
-            <p className="font-serif text-3xl font-light text-[#C0B8B0] mb-3">No products found</p>
-            <p className="text-[#8A8A8A] font-light mb-6">Try adjusting your filters</p>
+            <p className="font-serif text-3xl font-light text-[#B0B0B0] mb-3">No products found</p>
+            <p className="text-[#8C8C8C] font-light mb-6">Try adjusting your filters</p>
             <Button variant="outline" className="rounded-none" onClick={clearAll}>Clear Filters</Button>
           </div>
         ) : (
