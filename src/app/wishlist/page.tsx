@@ -8,6 +8,7 @@ import { WishlistItem } from "@/types";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import { Heart } from "lucide-react";
+import ErrorState from "@/components/ErrorState";
 
 export default function WishlistPage() {
   const { user } = useAuthStore();
@@ -17,7 +18,7 @@ export default function WishlistPage() {
     if (!user) router.push("/login");
   }, [user, router]);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["wishlist"],
     queryFn: () => productsApi.wishlist(),
     enabled: !!user,
@@ -33,7 +34,9 @@ export default function WishlistPage() {
           Wishlist
         </h1>
 
-        {isLoading ? (
+        {isError ? (
+          <ErrorState message="Couldn't load your wishlist." onRetry={() => refetch()} />
+        ) : isLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i}>

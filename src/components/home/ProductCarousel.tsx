@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import ErrorState from "@/components/ErrorState";
 
 function ProductCardContent({ product }: { product: Product }) {
   const { addItem } = useCartStore();
@@ -112,7 +113,7 @@ function ProductCardContent({ product }: { product: Product }) {
 }
 
 export default function ProductCarousel() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["products-carousel"],
     queryFn: () => productsApi.list({ is_active: true, ordering: "-created_at" }),
   });
@@ -130,6 +131,18 @@ export default function ProductCarousel() {
           {Array.from({ length: 5 }).map((_, i) => (
             <Skeleton key={i} className="w-56 md:w-96 h-80 md:h-[40rem] shrink-0" />
           ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="py-20 lg:py-28 bg-white">
+        <div className="max-w-[1400px] mx-auto px-4 lg:px-16">
+          <p className="font-brand-label mb-3">Swipe to Explore</p>
+          <h2 className="section-heading mb-6">The Collection</h2>
+          <ErrorState message="Couldn't load the collection." onRetry={() => refetch()} />
         </div>
       </section>
     );

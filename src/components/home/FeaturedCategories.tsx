@@ -3,9 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { productsApi } from "@/lib/api";
 import { Category } from "@/types";
 import Link from "next/link";
+import ErrorState from "@/components/ErrorState";
 
 export default function FeaturedCategories() {
-  const { data } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["categories"],
     queryFn: () => productsApi.categories(),
   });
@@ -28,12 +29,16 @@ export default function FeaturedCategories() {
           </Link>
         </div>
 
-        {categories.length === 0 ? (
+        {isError ? (
+          <ErrorState message="Couldn't load categories." onRetry={() => refetch()} />
+        ) : isLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="aspect-square animate-shimmer" />
             ))}
           </div>
+        ) : categories.length === 0 ? (
+          <p className="text-[#8C8C8C] text-sm">No categories available yet.</p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.slice(0, 4).map((cat) => (
