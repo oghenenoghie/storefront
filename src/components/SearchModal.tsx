@@ -39,30 +39,30 @@ export default function SearchModal({ open, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-[60] flex flex-col bg-white">
-      <div className="border-b border-[#E2DDD8] px-6 lg:px-12 py-5 flex items-center gap-6">
-        <Search size={18} strokeWidth={1.5} className="text-[#8A8A8A] shrink-0" />
+      <div className="border-b border-[#E0E0E0] px-6 lg:px-12 py-5 flex items-center gap-6">
+        <Search size={18} strokeWidth={1.5} className="text-[#8C8C8C] shrink-0" />
         <input
           ref={inputRef}
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search products, categories…"
-          className="flex-1 font-serif text-xl font-light focus:outline-none placeholder:text-[#C0B8B0]"
+          className="flex-1 font-serif text-xl font-light focus:outline-none placeholder:text-[#B0B0B0]"
         />
-        <button onClick={onClose} className="hover:text-[#C9A96E] transition-colors">
+        <button onClick={onClose} className="hover:opacity-60 transition-opacity">
           <X size={20} strokeWidth={1.5} />
         </button>
       </div>
 
       <div className="flex-1 overflow-y-auto px-6 lg:px-12 py-8">
         {q.length < 2 ? (
-          <div className="text-center text-[#8A8A8A] text-sm mt-20">
-            <p className="font-serif text-2xl text-[#C0B8B0] font-light mb-2">Start typing to search</p>
+          <div className="text-center text-[#8C8C8C] text-sm mt-20">
+            <p className="font-serif text-2xl text-[#B0B0B0] font-light mb-2">Start typing to search</p>
           </div>
         ) : results.length === 0 ? (
-          <p className="text-[#8A8A8A] font-light text-center mt-20">No results for "{q}"</p>
+          <p className="text-[#8C8C8C] font-light text-center mt-20">No results for "{q}"</p>
         ) : (
           <div className="max-w-2xl mx-auto">
-            <p className="text-label text-[#8A8A8A] mb-6">{results.length} result{results.length !== 1 ? "s" : ""}</p>
+            <p className="text-label text-[#8C8C8C] mb-6">{results.length} result{results.length !== 1 ? "s" : ""}</p>
             <div className="space-y-4">
               {results.map((p) => {
                 const img = p.images?.find((i) => i.is_primary) ?? p.images?.[0];
@@ -71,16 +71,16 @@ export default function SearchModal({ open, onClose }: Props) {
                     key={p.id}
                     href={`/shop/${p.slug}`}
                     onClick={onClose}
-                    className="flex gap-4 items-center p-3 hover:bg-[#F7F4F0] transition-colors group"
+                    className="flex gap-4 items-center p-3 hover:bg-[#F7F7F7] transition-colors group"
                   >
-                    <div className="w-16 h-16 bg-[#F0ECE6] relative shrink-0 overflow-hidden">
+                    <div className="w-16 h-16 bg-[#F7F7F7] relative shrink-0 overflow-hidden">
                       {img && (
                         <Image src={img.image_url} alt={img.alt_text} fill className="object-cover" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate group-hover:text-[#C9A96E] transition-colors">{p.name}</p>
-                      <p className="text-[#8A8A8A] text-sm font-light">{p.category_detail?.name}</p>
+                      <p className="font-medium text-sm truncate group-hover:text-[#1A1A1A] transition-colors">{p.name}</p>
+                      <p className="text-[#8C8C8C] text-sm font-light">{p.category_detail?.name}</p>
                     </div>
                     <p className="text-sm font-medium shrink-0">
                       {p.currency_detail?.symbol}{parseFloat(p.price).toLocaleString()}

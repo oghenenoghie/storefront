@@ -31,15 +31,15 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         position="bottom-right"
         toastOptions={{
           style: {
-            fontFamily: "var(--font-jost), sans-serif",
+            fontFamily: "var(--font-inter), sans-serif",
             fontSize: "0.875rem",
             letterSpacing: "0.02em",
             borderRadius: "0",
-            border: "1px solid #E2DDD8",
+            border: "1px solid #E0E0E0",
             background: "#FFFFFF",
-            color: "#0A0A0A",
+            color: "#1A1A1A",
           },
-          success: { iconTheme: { primary: "#C9A96E", secondary: "#FFFFFF" } },
+          success: { iconTheme: { primary: "#1A1A1A", secondary: "#FFFFFF" } },
         }}
       />
     </QueryClientProvider>

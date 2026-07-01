@@ -4,13 +4,6 @@ import { productsApi } from "@/lib/api";
 import { Category } from "@/types";
 import Link from "next/link";
 
-const categoryColors = [
-  "from-[#1A1410] to-[#0D0A08]",
-  "from-[#0D1A10] to-[#080D0A]",
-  "from-[#0D0D1A] to-[#080810]",
-  "from-[#1A100D] to-[#0D0808]",
-];
-
 export default function FeaturedCategories() {
   const { data } = useQuery({
     queryKey: ["categories"],
@@ -20,21 +13,16 @@ export default function FeaturedCategories() {
   const categories: Category[] = data?.data?.results ?? data?.data ?? [];
 
   return (
-    <section className="py-20 lg:py-28 bg-[#F7F4F0]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+    <section className="py-20 lg:py-28">
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-16">
         <div className="flex items-end justify-between mb-12">
           <div>
-            <p className="text-label text-[#C9A96E] mb-3">Browse by</p>
-            <h2
-              className="font-serif font-light"
-              style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.02em" }}
-            >
-              Category
-            </h2>
+            <p className="font-brand-label mb-3">Browse by</p>
+            <h2 className="section-heading">Category</h2>
           </div>
           <Link
             href="/shop"
-            className="text-label border-b border-[#0A0A0A] pb-0.5 hover:text-[#C9A96E] hover:border-[#C9A96E] transition-colors hidden md:block"
+            className="text-label border-b border-[#1A1A1A] pb-0.5 hover:text-[#8C8C8C] hover:border-[#8C8C8C] transition-colors hidden md:block"
           >
             All Categories →
           </Link>
@@ -48,18 +36,17 @@ export default function FeaturedCategories() {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {categories.slice(0, 4).map((cat, i) => (
+            {categories.slice(0, 4).map((cat) => (
               <Link
                 key={cat.id}
                 href={`/shop?category=${cat.slug}`}
-                className={`group relative aspect-square bg-gradient-to-br ${categoryColors[i % categoryColors.length]} overflow-hidden flex items-end p-6`}
+                className="group relative aspect-square bg-[#F7F7F7] border border-[#E0E0E0] overflow-hidden flex items-end p-6 hover:border-[#1A1A1A] transition-colors duration-300"
               >
-                <div className="absolute inset-0 bg-[#C9A96E]/0 group-hover:bg-[#C9A96E]/10 transition-colors duration-500" />
                 <div className="relative z-10">
-                  <p className="font-serif text-2xl font-light text-white mb-1 group-hover:text-[#C9A96E] transition-colors">
+                  <p className="font-serif text-2xl font-light text-[#1A1A1A] mb-1">
                     {cat.name}
                   </p>
-                  <p className="text-label text-[#5A5A5A] group-hover:text-[#C9A96E]/70 transition-colors">
+                  <p className="font-brand-label group-hover:text-[#1A1A1A] transition-colors">
                     Explore →
                   </p>
                 </div>

@@ -50,9 +50,9 @@ export default function CheckoutPage() {
 
   if (!cart?.items?.length) {
     return (
-      <div className="min-h-screen pt-40 text-center">
-        <p className="font-serif text-2xl font-light text-[#8A8A8A] mb-4">Your bag is empty</p>
-        <Link href="/shop" className="text-label border-b border-[#0A0A0A] hover:text-[#C9A96E] hover:border-[#C9A96E] transition-colors">
+      <div className="min-h-screen text-center">
+        <p className="font-serif text-2xl font-light text-[#8C8C8C] mb-4">Your bag is empty</p>
+        <Link href="/shop" className="text-label border-b border-[#1A1A1A] hover:opacity-60 transition-opacity">
           Continue Shopping →
         </Link>
       </div>
@@ -62,9 +62,9 @@ export default function CheckoutPage() {
   const sym = cart.items[0]?.product?.currency_detail?.symbol ?? "$";
 
   return (
-    <div className="min-h-screen pt-24">
+    <div className="min-h-screen">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
-        <p className="text-label text-[#C9A96E] mb-3">Secure Checkout</p>
+        <p className="text-label text-[#8C8C8C] mb-3">Secure Checkout</p>
         <h1 className="font-serif text-4xl font-light mb-12" style={{ letterSpacing: "-0.02em" }}>
           Complete Your Order
         </h1>
@@ -73,7 +73,7 @@ export default function CheckoutPage() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Shipping */}
-            <div className="bg-[#F7F4F0] p-8">
+            <div className="bg-[#F7F7F7] p-8">
               <h2 className="font-serif text-xl font-light mb-6">Shipping Address</h2>
               <div className="space-y-4">
                 <div>
@@ -83,7 +83,7 @@ export default function CheckoutPage() {
                     onChange={(e) => set("shipping_address", e.target.value)}
                     required
                     rows={3}
-                    className="w-full bg-white border border-[#E2DDD8] px-4 py-3 text-sm font-light focus:outline-none focus:border-[#C9A96E] transition-colors resize-none"
+                    className="w-full bg-white border border-[#E0E0E0] px-4 py-3 text-sm font-light focus:outline-none focus:border-[#1A1A1A] transition-colors resize-none"
                     placeholder="Street address, city, country"
                   />
                 </div>
@@ -92,7 +92,7 @@ export default function CheckoutPage() {
                     type="checkbox"
                     checked={sameAddress}
                     onChange={(e) => setSameAddress(e.target.checked)}
-                    className="accent-[#C9A96E]"
+                    className="accent-[#1A1A1A]"
                   />
                   <span className="text-sm font-light">Billing address same as shipping</span>
                 </label>
@@ -101,27 +101,27 @@ export default function CheckoutPage() {
 
             {/* Billing */}
             {!sameAddress && (
-              <div className="bg-[#F7F4F0] p-8">
+              <div className="bg-[#F7F7F7] p-8">
                 <h2 className="font-serif text-xl font-light mb-6">Billing Address</h2>
                 <textarea
                   value={form.billing_address}
                   onChange={(e) => set("billing_address", e.target.value)}
                   required={!sameAddress}
                   rows={3}
-                  className="w-full bg-white border border-[#E2DDD8] px-4 py-3 text-sm font-light focus:outline-none focus:border-[#C9A96E] transition-colors resize-none"
+                  className="w-full bg-white border border-[#E0E0E0] px-4 py-3 text-sm font-light focus:outline-none focus:border-[#1A1A1A] transition-colors resize-none"
                   placeholder="Billing address"
                 />
               </div>
             )}
 
             {/* Notes */}
-            <div className="bg-[#F7F4F0] p-8">
+            <div className="bg-[#F7F7F7] p-8">
               <h2 className="font-serif text-xl font-light mb-6">Order Notes (Optional)</h2>
               <textarea
                 value={form.notes}
                 onChange={(e) => set("notes", e.target.value)}
                 rows={2}
-                className="w-full bg-white border border-[#E2DDD8] px-4 py-3 text-sm font-light focus:outline-none focus:border-[#C9A96E] transition-colors resize-none"
+                className="w-full bg-white border border-[#E0E0E0] px-4 py-3 text-sm font-light focus:outline-none focus:border-[#1A1A1A] transition-colors resize-none"
                 placeholder="Special instructions, delivery notes…"
               />
             </div>
@@ -129,7 +129,7 @@ export default function CheckoutPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#0A0A0A] text-white text-label py-5 hover:bg-[#C9A96E] transition-colors duration-300 disabled:opacity-50"
+              className="w-full bg-[#1A1A1A] text-white text-label py-5 hover:bg-[#333333] transition-colors duration-300 disabled:opacity-50"
             >
               {loading ? "Placing Order…" : `Place Order — ${sym}${parseFloat(cart.grand_total).toLocaleString()}`}
             </button>
@@ -137,19 +137,19 @@ export default function CheckoutPage() {
 
           {/* Order summary */}
           <div>
-            <div className="bg-[#F7F4F0] p-8 sticky top-24">
+            <div className="bg-[#F7F7F7] p-8 sticky top-24">
               <h2 className="font-serif text-xl font-light mb-6">Order Summary</h2>
               <div className="space-y-4 mb-6">
                 {cart.items.map((item) => {
                   const img = item.product.images?.find((i) => i.is_primary) ?? item.product.images?.[0];
                   return (
                     <div key={item.id} className="flex gap-3 items-center">
-                      <div className="w-16 h-20 bg-[#E8E0D5] relative shrink-0 overflow-hidden">
+                      <div className="w-16 h-20 bg-[#F0F0F0] relative shrink-0 overflow-hidden">
                         {img && <Image src={img.image_url} alt={img.alt_text} fill className="object-cover" />}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium truncate">{item.product.name}</p>
-                        <p className="text-xs text-[#8A8A8A] font-light">Qty: {item.quantity}</p>
+                        <p className="text-xs text-[#8C8C8C] font-light">Qty: {item.quantity}</p>
                       </div>
                       <p className="text-sm font-medium shrink-0">
                         {sym}{parseFloat(item.line_total).toLocaleString()}
@@ -158,18 +158,18 @@ export default function CheckoutPage() {
                   );
                 })}
               </div>
-              <div className="border-t border-[#E2DDD8] pt-4 space-y-3">
+              <div className="border-t border-[#E0E0E0] pt-4 space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#8A8A8A] font-light">Subtotal</span>
+                  <span className="text-[#8C8C8C] font-light">Subtotal</span>
                   <span>{sym}{parseFloat(cart.subtotal).toLocaleString()}</span>
                 </div>
                 {parseFloat(cart.discount_total) > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#8A8A8A] font-light">Discount</span>
-                    <span className="text-[#C9A96E]">−{sym}{parseFloat(cart.discount_total).toLocaleString()}</span>
+                    <span className="text-[#8C8C8C] font-light">Discount</span>
+                    <span className="text-[#1A1A1A]">−{sym}{parseFloat(cart.discount_total).toLocaleString()}</span>
                   </div>
                 )}
-                <div className="flex justify-between font-medium border-t border-[#E2DDD8] pt-3">
+                <div className="flex justify-between font-medium border-t border-[#E0E0E0] pt-3">
                   <span>Total</span>
                   <span className="font-serif text-lg">{sym}{parseFloat(cart.grand_total).toLocaleString()}</span>
                 </div>

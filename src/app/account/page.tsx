@@ -14,11 +14,11 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const statusVariant: Record<string, "default" | "secondary" | "outline" | "gold" | "success" | "warning" | "destructive"> = {
+const statusVariant: Record<string, "default" | "secondary" | "outline" | "dark" | "success" | "warning" | "destructive"> = {
   pending: "warning",
   paid: "secondary",
   processing: "secondary",
-  shipped: "gold",
+  shipped: "dark",
   delivered: "success",
   cancelled: "destructive",
 };
@@ -44,29 +44,29 @@ export default function AccountPage() {
   const initials = ((user.first_name?.[0] ?? "") + (user.last_name?.[0] ?? "")) || user.username[0].toUpperCase();
 
   return (
-    <div className="min-h-screen pt-24 bg-[#F7F4F0]">
+    <div className="min-h-screen bg-[#F7F7F7]">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
 
         {/* Profile header */}
         <div className="flex items-center justify-between mb-10">
           <div className="flex items-center gap-5">
             <Avatar className="w-16 h-16 text-lg">
-              <AvatarFallback className="bg-[#0A0A0A] text-white text-xl font-serif">
+              <AvatarFallback className="bg-[#1A1A1A] text-white text-xl font-serif">
                 {initials}
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-label text-[#C9A96E] mb-1">My Account</p>
+              <p className="text-label text-[#8C8C8C] mb-1">My Account</p>
               <h1 className="font-serif text-3xl font-light" style={{ letterSpacing: "-0.02em" }}>
                 {user.first_name ? `${user.first_name} ${user.last_name}` : user.username}
               </h1>
-              <p className="text-[#8A8A8A] text-sm font-light">{user.email}</p>
+              <p className="text-[#8C8C8C] text-sm font-light">{user.email}</p>
             </div>
           </div>
           <Button
             variant="ghost"
             size="sm"
-            className="gap-2 text-[#8A8A8A]"
+            className="gap-2 text-[#8C8C8C]"
             onClick={() => { logout(); router.push("/"); }}
           >
             <LogOut size={14} strokeWidth={1.5} />
@@ -81,19 +81,19 @@ export default function AccountPage() {
             { label: "Wishlist", sub: "Saved items", href: "/wishlist", icon: Heart },
             { label: "Settings", sub: "Profile & preferences", href: "#", icon: Settings },
           ].map(({ label, sub, href, icon: Icon }) => (
-            <Card key={label} className="rounded-none hover:border-[#C9A96E] transition-colors group cursor-pointer">
+            <Card key={label} className="rounded-none hover:border-[#1A1A1A] transition-colors group cursor-pointer">
               <Link href={href}>
                 <CardContent className="p-5 flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 border border-[#E2DDD8] group-hover:border-[#C9A96E] flex items-center justify-center transition-colors">
-                      <Icon size={16} strokeWidth={1.5} className="text-[#8A8A8A] group-hover:text-[#C9A96E] transition-colors" />
+                    <div className="w-10 h-10 border border-[#E0E0E0] group-hover:border-[#1A1A1A] flex items-center justify-center transition-colors">
+                      <Icon size={16} strokeWidth={1.5} className="text-[#8C8C8C] group-hover:text-[#1A1A1A] transition-colors" />
                     </div>
                     <div>
                       <p className="font-medium text-sm">{label}</p>
-                      <p className="text-[#8A8A8A] text-xs font-light">{sub}</p>
+                      <p className="text-[#8C8C8C] text-xs font-light">{sub}</p>
                     </div>
                   </div>
-                  <ChevronRight size={16} strokeWidth={1.5} className="text-[#E2DDD8] group-hover:text-[#C9A96E] transition-colors" />
+                  <ChevronRight size={16} strokeWidth={1.5} className="text-[#E0E0E0] group-hover:text-[#1A1A1A] transition-colors" />
                 </CardContent>
               </Link>
             </Card>
@@ -115,8 +115,8 @@ export default function AccountPage() {
           ) : orders.length === 0 ? (
             <Card className="rounded-none">
               <CardContent className="p-16 text-center">
-                <Package size={36} strokeWidth={1} className="text-[#E2DDD8] mx-auto mb-4" />
-                <CardTitle className="text-xl font-light text-[#8A8A8A] mb-2">No orders yet</CardTitle>
+                <Package size={36} strokeWidth={1} className="text-[#E0E0E0] mx-auto mb-4" />
+                <CardTitle className="text-xl font-light text-[#8C8C8C] mb-2">No orders yet</CardTitle>
                 <CardDescription className="mb-6">Your order history will appear here</CardDescription>
                 <Button asChild variant="outline" className="rounded-none">
                   <Link href="/shop">Start Shopping →</Link>
@@ -126,7 +126,7 @@ export default function AccountPage() {
           ) : (
             <div className="space-y-4">
               {orders.map((order) => (
-                <Card key={order.id} className="rounded-none hover:border-[#C9A96E] transition-colors">
+                <Card key={order.id} className="rounded-none hover:border-[#1A1A1A] transition-colors">
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between flex-wrap gap-3">
                       <div>
@@ -160,7 +160,7 @@ export default function AccountPage() {
                   )}
                   {order.tracking_events?.length > 0 && (
                     <CardContent className="pt-0">
-                      <p className="text-xs text-[#C9A96E] font-medium mt-3">
+                      <p className="text-xs text-[#1A1A1A] font-medium mt-3">
                         Latest: {order.tracking_events[order.tracking_events.length - 1].message}
                       </p>
                     </CardContent>

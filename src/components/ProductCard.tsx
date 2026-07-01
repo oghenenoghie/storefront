@@ -49,9 +49,9 @@ export default function ProductCard({ product }: Props) {
   };
 
   return (
-    <Link href={`/shop/${product.slug}`} className="group block">
+    <Link href={`/shop/${product.slug}`} className="group product-card">
       {/* Image */}
-      <div className="relative aspect-[3/4] bg-[#F0ECE6] overflow-hidden mb-4">
+      <div className="product-card-image">
         {primaryImage && (
           <Image
             src={primaryImage.image_url}
@@ -76,44 +76,44 @@ export default function ProductCard({ product }: Props) {
           <button
             onClick={handleAddToCart}
             disabled={adding || !product.stock_quantity}
-            className="flex-1 bg-white/95 backdrop-blur-sm text-[#0A0A0A] text-label py-3 hover:bg-[#0A0A0A] hover:text-white transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 bg-white/95 backdrop-blur-sm text-[#1A1A1A] text-label py-3 hover:bg-[#1A1A1A] hover:text-white transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             <ShoppingBag size={13} strokeWidth={1.5} />
             {product.stock_quantity ? (adding ? "Adding…" : "Add to Bag") : "Out of Stock"}
           </button>
           <button
             onClick={handleWishlist}
-            className="w-11 bg-white/95 backdrop-blur-sm flex items-center justify-center hover:bg-[#0A0A0A] hover:text-white transition-colors"
+            className="w-11 bg-white/95 backdrop-blur-sm flex items-center justify-center hover:bg-[#1A1A1A] hover:text-white transition-colors"
           >
-            <Heart size={14} strokeWidth={1.5} fill={wishlisted ? "currentColor" : "none"} className={wishlisted ? "text-[#C9A96E]" : ""} />
+            <Heart size={14} strokeWidth={1.5} fill={wishlisted ? "currentColor" : "none"} />
           </button>
         </div>
 
         {/* Badge */}
         {!product.stock_quantity && (
-          <div className="absolute top-3 left-3 bg-[#0A0A0A] text-white text-[9px] tracking-widest uppercase px-2 py-1">
+          <div className="absolute top-3 left-3 bg-[#1A1A1A] text-white text-[9px] tracking-widest uppercase px-2 py-1">
             Sold Out
           </div>
         )}
       </div>
 
       {/* Info */}
-      <div>
-        <p className="text-[10px] tracking-widest uppercase text-[#8A8A8A] mb-1">
+      <div className="product-card-info">
+        <p className="font-brand-label">
           {product.category_detail?.name}
         </p>
-        <h3 className="font-serif text-lg font-light leading-tight group-hover:text-[#C9A96E] transition-colors">
+        <h3 className="product-card-name leading-tight">
           {product.name}
         </h3>
-        <div className="flex items-center justify-between mt-2">
-          <p className="text-sm font-medium">
+        <div className="flex items-center justify-between mt-1">
+          <p className="product-card-price font-medium">
             {product.currency_detail?.symbol}
             {parseFloat(product.price).toLocaleString()}
           </p>
           {product.average_rating > 0 && (
             <div className="flex items-center gap-1">
-              <Star size={11} strokeWidth={1.5} fill="currentColor" className="text-[#C9A96E]" />
-              <span className="text-xs text-[#8A8A8A]">{product.average_rating.toFixed(1)}</span>
+              <Star size={11} strokeWidth={1.5} fill="currentColor" className="text-[#1A1A1A]" />
+              <span className="text-xs text-[#8C8C8C]">{product.average_rating.toFixed(1)}</span>
             </div>
           )}
         </div>
