@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import ErrorState from "@/components/ErrorState";
 
 const statusVariant: Record<string, "default" | "secondary" | "outline" | "dark" | "success" | "warning" | "destructive"> = {
   pending: "warning",
@@ -31,7 +32,7 @@ export default function AccountPage() {
     if (!user) router.push("/login");
   }, [user, router]);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["orders"],
     queryFn: () => ordersApi.mine(),
     enabled: !!user,
@@ -108,7 +109,13 @@ export default function AccountPage() {
             Order History
           </h2>
 
-          {isLoading ? (
+          {isError ? (
+            <Card className="rounded-none">
+              <CardContent className="p-16">
+                <ErrorState message="Couldn't load your orders." onRetry={() => refetch()} className="py-0" />
+              </CardContent>
+            </Card>
+          ) : isLoading ? (
             <div className="space-y-4">
               {[1, 2, 3].map((i) => <Skeleton key={i} className="h-28" />)}
             </div>

@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import ErrorState from "@/components/ErrorState";
 
 function ShopContent() {
   const searchParams = useSearchParams();
@@ -36,13 +37,13 @@ function ShopContent() {
     router.push("/shop");
   };
 
-  const { data: catData } = useQuery({
+  const { data: catData, isError: categoriesError } = useQuery({
     queryKey: ["categories"],
     queryFn: () => productsApi.categories(),
   });
   const categories: Category[] = catData?.data?.results ?? catData?.data ?? [];
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["products", category, ordering, minPrice, maxPrice, inStock],
     queryFn: () =>
       productsApi.list({
@@ -101,6 +102,9 @@ function ShopContent() {
                   {c.name}
                 </Button>
               ))}
+              {categoriesError && (
+                <span className="text-[#8C8C8C] text-xs shrink-0">Categories unavailable</span>
+              )}
             </div>
           </ScrollArea>
 
@@ -199,7 +203,9 @@ function ShopContent() {
         )}
 
         {/* Grid */}
-        {isLoading ? (
+        {isError ? (
+          <ErrorState message="Couldn't load products." onRetry={() => refetch()} />
+        ) : isLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
             {Array.from({ length: 12 }).map((_, i) => (
               <div key={i} className="space-y-3">

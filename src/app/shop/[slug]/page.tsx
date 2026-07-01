@@ -20,6 +20,7 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/comp
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
+import ErrorState from "@/components/ErrorState";
 
 export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -31,7 +32,7 @@ export default function ProductPage() {
   const { addItem } = useCartStore();
   const { user } = useAuthStore();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["product", slug],
     queryFn: () => productsApi.get(slug),
     enabled: !!slug,
@@ -84,6 +85,14 @@ export default function ProductPage() {
             <Skeleton className="h-12 w-full" />
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <ErrorState message="Couldn't load this product." onRetry={() => refetch()} />
       </div>
     );
   }

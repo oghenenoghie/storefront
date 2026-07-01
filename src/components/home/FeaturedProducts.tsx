@@ -3,10 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { productsApi } from "@/lib/api";
 import { Product } from "@/types";
 import ProductCard from "@/components/ProductCard";
+import ErrorState from "@/components/ErrorState";
 import Link from "next/link";
 
 export default function FeaturedProducts() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["products-featured"],
     queryFn: () => productsApi.list({ is_active: true, ordering: "-created_at" }),
   });
@@ -29,7 +30,9 @@ export default function FeaturedProducts() {
           </Link>
         </div>
 
-        {isLoading ? (
+        {isError ? (
+          <ErrorState message="Couldn't load new arrivals." onRetry={() => refetch()} />
+        ) : isLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i}>
@@ -40,6 +43,8 @@ export default function FeaturedProducts() {
               </div>
             ))}
           </div>
+        ) : products.length === 0 ? (
+          <p className="text-[#8C8C8C] text-sm">No products available yet.</p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12">
             {products.slice(0, 8).map((p) => (
