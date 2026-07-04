@@ -44,6 +44,14 @@ export default api;
 export const authApi = {
   login: (username: string, password: string) =>
     api.post("/api/auth/token/", { username, password }),
+  register: (data: {
+    username: string;
+    email: string;
+    password: string;
+    password2: string;
+    first_name?: string;
+    last_name?: string;
+  }) => api.post("/api/auth/register/", data),
   me: () => api.get("/api/auth/me/"),
   updateProfile: (id: number, data: Record<string, unknown>) =>
     api.patch(`/api/auth/profiles/${id}/`, data),
